@@ -10,13 +10,13 @@ pose = mp_pose.Pose()
 cap = cv2.VideoCapture(0)
 while True:
     ret, frame = cap.read()
-
     # convert BGR to RGB
     imgRGB = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
     result = pose.process(imgRGB)
     print(result.pose_landmarks)
 
-    # convert image back to BGR
+    # convert image from RGB to BGR
     imgRGB = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
 
     if result.pose_landmarks:
