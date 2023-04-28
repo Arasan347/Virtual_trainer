@@ -14,10 +14,13 @@ while True:
     imgRGB = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
     result = pose.process(imgRGB)
-    print(result.pose_landmarks)
 
     # convert image from RGB to BGR
     imgRGB = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+
+
+    print(result.pose_landmarks)
+
 
     if result.pose_landmarks:
         mp_draw.draw_landmarks(frame, result.pose_landmarks, mp_pose.POSE_CONNECTIONS,
@@ -25,8 +28,10 @@ while True:
                               mp_draw.DrawingSpec(color=(42, 42, 165), thickness=2, circle_radius=2))
 
     # to display fps
-    fps = cap.get(cv2.CAP_PROP_FPS)
-    cv2.putText(frame, str(int(fps)), (70, 50), cv2.FONT_HERSHEY_PLAIN, 3, (255, 0, 0), 3)
+    cTime = time.time()
+    fps = 1 / (cTime - pTime)
+    pTime = cTime
+    cv2.putText(image, str(int(fps)), (50, 100), cv2.FONT_HERSHEY_PLAIN, 5, (255, 0, 0), 5)
 
     cv2.imshow('Video capture', frame)
     if cv2.waitKey(10) & 0xFF == ord('q'):
