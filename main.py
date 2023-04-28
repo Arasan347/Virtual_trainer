@@ -1,6 +1,8 @@
 import cv2
 import mediapipe as mp
+import time
 import numpy
+pTime = 0
 
 mp_draw = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
