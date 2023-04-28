@@ -20,9 +20,12 @@ while True:
     # convert image from RGB to BGR
     imgRGB = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
 
-
-    print(result.pose_landmarks)
-
+    # Extract landmarks in body
+    try:
+        landmarks = result.pose_landmarks.landmark
+        print(landmarks)
+    except:
+        pass
 
     if result.pose_landmarks:
         mp_draw.draw_landmarks(frame, result.pose_landmarks, mp_pose.POSE_CONNECTIONS,
@@ -33,7 +36,7 @@ while True:
     cTime = time.time()
     fps = 1 / (cTime - pTime)
     pTime = cTime
-    cv2.putText(image, str(int(fps)), (50, 100), cv2.FONT_HERSHEY_PLAIN, 5, (255, 0, 0), 5)
+    cv2.putText(frame, str(int(fps)), (50, 100), cv2.FONT_HERSHEY_PLAIN, 5, (255, 0, 0), 5)
 
     cv2.imshow('Video capture', frame)
     if cv2.waitKey(10) & 0xFF == ord('q'):
