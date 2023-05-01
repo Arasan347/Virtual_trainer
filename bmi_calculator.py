@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
 
+#creating windows
 window = Tk()
 window.title("User Interface")
 window.minsize(height=300, width=300)
@@ -11,6 +12,7 @@ bmi_logo = PhotoImage(file="new_bmi.png")
 canvas.create_image(100, 100, image=bmi_logo)
 canvas.grid(column=0, row=0)
 
+#function for calculating bmi
 def calculate_bmi():
     cm = int(cm_input.get())
     kg = int(kg_input.get())
@@ -44,7 +46,7 @@ cm_input.focus()
 kg_input = Entry(width=10)
 kg_input.grid(column=1, row=2)
 
-
+# buttons
 cal_button = Button(text="CALCULATE BMI", command=calculate_bmi)
 cal_button.grid(column=0, row=4)
 
