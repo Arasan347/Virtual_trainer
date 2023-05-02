@@ -2,10 +2,10 @@ from tkinter import *
 from tkinter import messagebox
 
 #creating windows
-window = Tk()
-window.title("User Interface")
-window.minsize(height=300, width=300)
-window.config(padx=20, pady=30)
+# window = Tk()
+# window.title("User Interface")
+# window.minsize(height=300, width=300)
+# window.config(padx=20, pady=30)
 
 canvas = Canvas(width=200, height=200)
 bmi_logo = PhotoImage(file="new_bmi.png")
@@ -53,4 +53,4 @@ cal_button.grid(column=0, row=4)
 
 
 
-window.mainloop()
+# window.mainloop()
