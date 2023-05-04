@@ -8,6 +8,8 @@ window.minsize(height=300, width=300)
 # labels
 title = Label(text="THE VIRTUAL GYM TRAINER")
 title.grid(column=0,row=0)
+
+# function to display bmi tab
 def bmi_cal():
     confirm_button.destroy()
     bicepcurl.destroy()
@@ -18,7 +20,7 @@ def bmi_cal():
 
 
 
-#button
+#button for bmi calculator
 bmi_button = Button(text="BMI calculator",command=bmi_cal)
 bmi_button.grid(column=0,row=1)
 
@@ -41,11 +43,6 @@ if radio_state == 2:
 # confirm_button
 confirm_button = Button(text="confirm workout")
 confirm_button.grid(column=0,row=4)
-
-
-
-
-
 
 
 
