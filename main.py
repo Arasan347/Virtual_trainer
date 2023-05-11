@@ -25,6 +25,11 @@ def calculate_angle(a, b, c):
 
 # with opencv capturing video
 cap = cv2.VideoCapture(0)
+
+# curl count
+count = 0
+stage = None
+
 while True:
     ret, frame = cap.read()
     # convert BGR to RGB
@@ -52,6 +57,14 @@ while True:
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA
                     )
         print(landmarks)
+
+        # Curl counter logic
+        if angle > 160:
+            stage = "down"
+        if angle < 30 and stage == 'down':
+            stage = "up"
+            count += 1
+            print(count)
     except:
         pass
 
