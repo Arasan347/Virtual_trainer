@@ -38,9 +38,20 @@ while True:
     # Extract landmarks in body
     try:
         landmarks = result.pose_landmarks.landmark
+
         shoulder = [landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x, landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y]
         elbow = [landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].x, landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].y]
         wrist = [landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].x, landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].y]
+
+        # Calculating angle
+        angle = calculate_angle(shoulder, elbow, wrist)
+
+        # showing co-ordinates
+        cv2.putText(frame, str(angle),
+                    tuple(np.multiply(elbow, [640, 480]).astype(int)),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA
+                    )
+        print(landmarks)
     except:
         pass
 
