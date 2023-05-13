@@ -8,6 +8,9 @@ mp_draw = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
 pose = mp_pose.Pose()
 
+# font type
+font = cv2.FONT_HERSHEY_SIMPLEX
+
 # Calculating angles for bicep curls
 def calculate_angle(a, b, c):
     a = np.array(a)
@@ -22,7 +25,7 @@ def calculate_angle(a, b, c):
 
     return angle
 
-
+#file_name = "video.webm"
 # with opencv capturing video
 cap = cv2.VideoCapture(0)
 
@@ -32,6 +35,10 @@ stage = None
 
 while True:
     ret, frame = cap.read()
+
+    # get height and width
+    h, w = frame.shape[:2]
+
     # convert BGR to RGB
     imgRGB = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
@@ -65,6 +72,14 @@ while True:
             stage = "up"
             count += 1
         print(count)
+
+        # showing feedback
+        if angle < 20:
+            time_string_good = 'bad Posture'
+            cv2.putText(frame, time_string_good, (10, h - 20), font, 0.9, (50, 50, 255), 2)
+        else:
+            time_string_bad = 'good Posture'
+            cv2.putText(frame, time_string_bad, (10, h - 20), font, 0.9, (127, 255, 0), 2)
     except:
         pass
 
@@ -74,6 +89,8 @@ while True:
                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1, cv2.LINE_AA)
     cv2.putText(frame, str(count),(10, 60),
                 cv2.FONT_HERSHEY_SIMPLEX, 2, (255, 255, 255), 2, cv2.LINE_AA)
+
+
 
 
     if result.pose_landmarks:
