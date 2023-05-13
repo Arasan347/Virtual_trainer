@@ -56,7 +56,7 @@ while True:
                     tuple(np.multiply(elbow, [640, 480]).astype(int)),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA
                     )
-        print(landmarks)
+
 
         # Curl counter logic
         if angle > 160:
@@ -64,9 +64,16 @@ while True:
         if angle < 30 and stage == 'down':
             stage = "up"
             count += 1
-            print(count)
+        print(count)
     except:
         pass
+
+    # display counts in display
+    # Rep data
+    cv2.putText(frame, 'REPS', (15, 12),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1, cv2.LINE_AA)
+    cv2.putText(frame, str(count),(10, 60),
+                cv2.FONT_HERSHEY_SIMPLEX, 2, (255, 255, 255), 2, cv2.LINE_AA)
 
 
     if result.pose_landmarks:
@@ -78,7 +85,7 @@ while True:
     cTime = time.time()
     fps = 1 / (cTime - pTime)
     pTime = cTime
-    cv2.putText(frame, str(int(fps)), (50, 100), cv2.FONT_HERSHEY_PLAIN, 5, (255, 0, 0), 5)
+    cv2.putText(frame, str(int(fps)), (100, 100), cv2.FONT_HERSHEY_PLAIN, 5, (255, 0, 0), 5)
 
     cv2.imshow('Video capture', frame)
     if cv2.waitKey(10) & 0xFF == ord('q'):
