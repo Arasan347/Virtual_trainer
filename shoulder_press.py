@@ -1,3 +1,5 @@
+import math
+
 import cv2
 import mediapipe as mp
 import time
@@ -14,36 +16,35 @@ font = cv2.FONT_HERSHEY_SIMPLEX
 
 
 # Calculating angles for bicep curls
-def calculate_angle(a, b, c):
+def calculate_angle(a, b, c, d, e, f):
     a = np.array(a)
     b = np.array(b)
     c = np.array(c)
+    d = np.array(d)
+    e = np.array(e)
+    f = np.array(f)
 
-    radians = np.arctan2(c[1] - b[1], c[0] - b[0]) - np.arctan2(a[1] - b[1], a[0] - b[0])
-    angle = np.abs(radians * 180.0 / np.pi)
+    left_Angle = np.arctan2(c[1] - b[1], c[0] - b[0]) - np.arctan2(a[1] - b[1], a[0] - b[0])
+    angle1 = np.abs(left_Angle * 180.0 / np.pi)
 
-    if angle > 180.0:
-        angle = 360 - angle
+    if angle1 > 180.0:
+        angle1 = 360 - angle1
 
-    return angle
-
-def calculate_angle2(a, b, c):
-    a = np.array(a)
-    b = np.array(b)
-    c = np.array(c)
-
-    radians = np.arctan2(c[1] - b[1], c[0] - b[0]) - np.arctan2(a[1] - b[1], a[0] - b[0])
-    angle2 = np.abs(radians * 180.0 / np.pi)
+    right_Angle = np.arctan2(f[1] - e[1], f[0] - e[0]) - np.arctan2(d[1] - e[1], d[0] - e[0])
+    angle2 = np.abs(right_Angle * 180.0 / np.pi)
 
     if angle2 > 180.0:
         angle2 = 360 - angle2
 
-    return angle2
 
 
-file_name = "video.webm"
+    return angle1
+
+
+
+file_name = "shoulder_press.mp4"
 # with opencv capturing video
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(file_name)
 
 # curl count
 count = 0
@@ -67,17 +68,23 @@ while True:
     try:
         landmarks = result.pose_landmarks.landmark
 
-        shoulder = [landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x, landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y]
-        elbow = [landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].x, landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].y]
-        wrist = [landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].x, landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].y]
+        left_shoulder = [landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x, landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y]
+        left_elbow = [landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].x, landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].y]
+        left_wrist = [landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].x, landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].y]
+        right_shoulder = [landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].x,
+                         landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].y]
+        right_elbow = [landmarks[mp_pose.PoseLandmark.RIGHT_ELBOW.value].x,
+                      landmarks[mp_pose.PoseLandmark.RIGHT_ELBOW.value].y]
+        right_wrist = [landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].x,
+                      landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].y]
 
         # Calculating angle
-        angle = calculate_angle(shoulder, elbow, wrist)
+        angle = calculate_angle(left_shoulder, left_elbow, left_wrist, right_shoulder, right_elbow, right_wrist)
 
 
         # showing co-ordinates
         cv2.putText(frame, str(angle),
-                    tuple(np.multiply(shoulder, [640, 480]).astype(int)),
+                    tuple(np.multiply(left_shoulder, [640, 480]).astype(int)),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA
                     )
 
@@ -85,24 +92,11 @@ while True:
         # Curl counter logic
         if angle > 160:
             stage = "down"
-        if angle < 30 and stage == 'down':
+        if angle < 50 and stage == 'down':
             stage = "up"
             count += 1
         # print(count)
 
-        shoulder = [landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x, landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y]
-        elbow = [landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].x, landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].y]
-        hip = [landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].x, landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].y]
-
-        angle2 = calculate_angle2(shoulder, elbow, hip)
-
-        # showing feedback
-        if angle2 < 140:
-            time_string_good = 'bad Posture'
-            cv2.putText(frame, time_string_good, (10, 300), font, 0.9, (50, 50, 255), 2)
-        else:
-            time_string_bad = 'good Posture'
-            cv2.putText(frame, time_string_bad, (10, 300), font, 0.9, (127, 255, 0), 2)
     except:
         pass
 
