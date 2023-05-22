@@ -36,6 +36,7 @@ title.grid(column=1, row=0)
 cm_label = Label(text="Enter your height in cm: ")
 cm_label.grid(column=0, row=1)
 
+
 kg_label = Label(text="Enter your weight in kg: ")
 kg_label.grid(column=0, row=2)
 
@@ -49,6 +50,7 @@ kg_input.grid(column=1, row=2)
 # buttons
 cal_button = Button(text="CALCULATE BMI", command=calculate_bmi)
 cal_button.grid(column=0, row=4)
+cal_button.configure(padx=5,pady=5, background="#F0EB8D")
 
 
 
