@@ -27,7 +27,7 @@ def confirm():
     if radio_state.get() == 1:
         from main import Bicep_curl
     else:
-        print("You have selected shoulder press")
+        from shoulder_press import Shoulder
 
 
 
