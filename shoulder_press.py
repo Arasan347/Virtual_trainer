@@ -98,6 +98,13 @@ class Shoulder:
                 count += 1
             # print(count)
 
+            if angle < 20:
+                time_string_good = 'Bad Posture'
+                cv2.putText(frame, time_string_good, (10, 300), font, 0.9, (50, 50, 255), 2)
+            else:
+                time_string_bad = 'Good Posture'
+                cv2.putText(frame, time_string_bad, (10, 300), font, 0.9, (127, 255, 0), 2)
+
         except:
             pass
 
@@ -120,7 +127,7 @@ class Shoulder:
         cTime = time.time()
         fps = 1 / (cTime - pTime)
         pTime = cTime
-        cv2.putText(frame, str(int(fps)), (100, 100), cv2.FONT_HERSHEY_PLAIN, 5, (255, 0, 0), 5)
+        cv2.putText(frame, str(int(fps)), (100, 70), cv2.FONT_HERSHEY_PLAIN, 5, (255, 0, 0), 5)
 
         cv2.imshow('Video capture', frame)
         if cv2.waitKey(10) & 0xFF == ord('q'):
