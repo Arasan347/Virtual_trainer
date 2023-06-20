@@ -98,7 +98,7 @@ class Shoulder:
                 count += 1
             # print(count)
 
-            if angle < 20:
+            if angle < 45:
                 time_string_good = 'Bad Posture'
                 cv2.putText(frame, time_string_good, (10, 300), font, 0.9, (50, 50, 255), 2)
             else:

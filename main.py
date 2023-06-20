@@ -97,7 +97,7 @@ class Bicep_curl:
             angle2 = calculate_angle2(shoulder, elbow, hip)
 
             # showing feedback
-            if angle2 < 140:
+            if angle2 > 60 and angle2 < 140:
                 time_string_good = 'bad Posture'
                 cv2.putText(frame, time_string_good, (10, 300), font, 0.9, (50, 50, 255), 2)
             else:
